@@ -1,5 +1,7 @@
 package com.naulian.loading.component
 
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -36,8 +38,8 @@ import com.naulian.loading.theme.Yellow
 @Suppress("SpellCheckingInspection")
 fun lerp(
     input: Float,
-    inStart: Float,
-    inEnd: Float,
+    inStart: Float = 0f,
+    inEnd: Float = 1f,
     outStart: Float = 0f,
     outEnd: Float = 1f
 ): Float {
@@ -49,22 +51,25 @@ fun lerp(
 @Suppress("SpellCheckingInspection")
 fun bounceLerp(
     input: Float,
-    inStart: Float,
-    inEnd: Float,
-    outStart: Float,
-    outEnd: Float
+    inStart: Float = 0f,
+    inEnd: Float = 1f,
+    outStart: Float = 0f,
+    outEnd: Float = 1f,
+    outEasing : Easing = LinearOutSlowInEasing,
+    inEasing : Easing = LinearOutFastInEasing
 ): Float {
     val halfWay = ((inEnd - inStart) / 2) + inStart
     return if (input <= halfWay) {
         val raw = lerp(input, inStart, halfWay, outStart, outEnd)
-        LinearOutSlowInEasing.transform(raw)
+        outEasing.transform(raw)
     } else {
         val raw =  lerp(input, halfWay, inEnd, outEnd, outStart)
-        LinearOutFastInEasing.transform(raw)
+        inEasing.transform(raw)
     }
 }
 
-//animation inspired by LottieFiles
+//animation by LottieFiles
+//@https://lottiefiles.com/free-animation/material-wave-loading-yt2uoeE83o
 @Composable
 fun MaterialWave(
     modifier: Modifier = Modifier,
