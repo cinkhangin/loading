@@ -1,9 +1,7 @@
 package com.naulian.loading.component
 
-import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -26,48 +24,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.naulian.loading.bounceLerp
 import com.naulian.loading.theme.Blue
 import com.naulian.loading.theme.Green
-import com.naulian.loading.theme.LinearOutFastInEasing
 import com.naulian.loading.theme.Orange
 import com.naulian.loading.theme.Red
 import com.naulian.loading.theme.Yellow
 
-
-@Suppress("SpellCheckingInspection")
-fun lerp(
-    input: Float,
-    inStart: Float = 0f,
-    inEnd: Float = 1f,
-    outStart: Float = 0f,
-    outEnd: Float = 1f
-): Float {
-    if (input > inEnd) return outEnd
-    if (input < inStart) return outStart
-    return outStart + (outEnd - outStart) * (input - inStart) / (inEnd - inStart)
-}
-
-@Suppress("SpellCheckingInspection")
-fun bounceLerp(
-    input: Float,
-    inStart: Float = 0f,
-    inEnd: Float = 1f,
-    outStart: Float = 0f,
-    outEnd: Float = 1f,
-    outEasing : Easing = LinearOutSlowInEasing,
-    inEasing : Easing = LinearOutFastInEasing
-): Float {
-    val halfWay = ((inEnd - inStart) / 2) + inStart
-    return if (input <= halfWay) {
-        val raw = lerp(input, inStart, halfWay, outStart, outEnd)
-        outEasing.transform(raw)
-    } else {
-        val raw =  lerp(input, halfWay, inEnd, outEnd, outStart)
-        inEasing.transform(raw)
-    }
-}
-
-//animation by LottieFiles
+//animation by LottieFiles @https://lottiefiles.com/lottiefilez
 //@https://lottiefiles.com/free-animation/material-wave-loading-yt2uoeE83o
 @Composable
 fun MaterialWave(

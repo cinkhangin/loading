@@ -2,14 +2,7 @@ package com.naulian.loading.component
 
 import android.util.Log
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.InfiniteRepeatableSpec
-import androidx.compose.animation.core.InfiniteTransition
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.StartOffset
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,31 +25,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.naulian.loading.theme.Blue
 import com.naulian.loading.theme.LinearOutFastInEasing
+import com.naulian.motion.animateSimpleFloat
+import com.naulian.motion.lerp
 
-@Composable
-fun InfiniteTransition.animateSimpleFloat(
-    duration: Int = 1000,
-    easing: Easing = LinearEasing,
-    label: String,
-    delay: Int = 0,
-    startDelay: Int = 0,
-    repeatMode: RepeatMode = RepeatMode.Reverse
-) = animateFloat(
-    initialValue = 0f,
-    targetValue = 1f,
-    animationSpec = InfiniteRepeatableSpec(
-        animation = tween(
-            durationMillis = duration,
-            easing = easing,
-            delayMillis = delay,
-        ),
-        repeatMode = repeatMode,
-        initialStartOffset = StartOffset(startDelay)
-    ),
-    label = label,
-)
-
-//animation by Anastasiya Remeslova
+//animation by Anastasiya Remeslova @https://lottiefiles.com/aranimation
 //@https://lottiefiles.com/free-animation/loading-18-Sx9I9v8DOW
 @Composable
 fun LineWave(

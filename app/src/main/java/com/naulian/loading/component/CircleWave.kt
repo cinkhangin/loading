@@ -1,6 +1,5 @@
 package com.naulian.loading.component
 
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Canvas
@@ -15,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -27,44 +27,36 @@ import androidx.compose.ui.unit.dp
 import com.naulian.motion.animateSimpleFloat
 import com.naulian.motion.lerp
 
-//animation by Arpan Gupta @https://lottiefiles.com/arpangupta
-//@https://lottiefiles.com/free-animation/loading-RPJRbJJhDY
+//animation by Maximilian Dahl @https://lottiefiles.com/maximiliandahl
+//@https://lottiefiles.com/free-animation/car2go-global-loading-animation-Vzv61jcw3T
 @Composable
-fun SwitchingBalls(
+fun CircleWave(
     modifier: Modifier = Modifier,
-    ballSize: Dp = 24.dp,
-    spacedBy: Dp = ballSize / 3,
-    ballColor : Color = MaterialTheme.colorScheme.primary
+    maxBallSize: Dp = 48.dp,
+    spacedBy: Dp = maxBallSize / 4,
+    ballColor: Color = MaterialTheme.colorScheme.primary
 ) {
 
-    val (size, spacing, radius) = with(LocalDensity.current) {
-        Triple(
-            ballSize.toPx(),
-            spacedBy.toPx(),
-            ballSize.toPx() / 2
-        )
+    val (ballSize, spacing, radius) = with(LocalDensity.current) {
+        val size = maxBallSize.toPx()
+        Triple(first = size, second = spacedBy.toPx(), third = size / 2)
     }
 
     val (widthDp, heightDp) = with(LocalDensity.current) {
-        Pair(
-            ((size * 2) + spacing).toDp(),
-            ballSize
-        )
+        Pair(first = (ballSize * 4 + spacing * 3).toDp(), second = maxBallSize)
     }
 
     val infiniteAnim = rememberInfiniteTransition()
-    val animation1 by infiniteAnim.animateSimpleFloat(
-        duration = 600,
-        repeatMode = RepeatMode.Reverse,
-        easing = CubicBezierEasing(0.7f, 0.0f, 0.3f, 1.0f),
-        label = "ball1",
+    val position by infiniteAnim.animateSimpleFloat(
+        duration = 700,
+        repeatMode = RepeatMode.Restart,
+        label = "circle_wave",
     )
 
-    val animation2 by infiniteAnim.animateSimpleFloat(
-        duration = 600,
-        repeatMode = RepeatMode.Reverse,
-        easing = CubicBezierEasing(0.7f, 0.0f, 0.3f, 1.0f),
-        label = "ball2",
+    val scale by infiniteAnim.animateSimpleFloat(
+        duration = 700,
+        repeatMode = RepeatMode.Restart,
+        label = "circle_wave_scale",
     )
 
     Canvas(
@@ -77,9 +69,11 @@ fun SwitchingBalls(
             radius = radius,
             center = Offset(
                 x = lerp(
-                    input = animation1,
+                    inStart = 0f,
+                    inEnd = 0.25f,
+                    input = position,
                     outStart = radius,
-                    outEnd = size + spacing + radius
+                    outEnd = ballSize + spacing + radius
                 ),
                 y = radius
             )
@@ -90,8 +84,8 @@ fun SwitchingBalls(
             radius = radius,
             center = Offset(
                 x = lerp(
-                    input = animation2,
-                    outStart = size + spacing + radius,
+                    input = position,
+                    outStart = ballSize + spacing + radius,
                     outEnd = radius
                 ),
                 y = radius
@@ -103,7 +97,7 @@ fun SwitchingBalls(
 
 @Preview
 @Composable
-private fun SwitchingBallsPreview() {
+private fun CircleWavePreview() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -112,9 +106,8 @@ private fun SwitchingBallsPreview() {
             .padding(24.dp),
         contentAlignment = Alignment.Center,
     ) {
-        SwitchingBalls(
+        CircleWave(
             ballColor = Color(0xFF3F51B5),
-            ballSize = 48.dp
         )
     }
 }

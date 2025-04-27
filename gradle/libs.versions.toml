@@ -12,6 +12,7 @@ hiltNavigation = "1.2.0"
 hiltVersion = "2.51.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
+motion = "0.1.0-rc"
 navigationCompose = "2.8.9"
 serialization = "1.8.0"
 material = "1.12.0"
@@ -50,6 +51,8 @@ google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
+naulian-motion = { module = "com.naulian:motion", version.ref = "motion" }
 naulian-anhance = { module = "com.naulian:anhance", version.ref = "anhance" }
 naulian-modify = { module = "com.naulian:modify", version.ref = "modify" }
 

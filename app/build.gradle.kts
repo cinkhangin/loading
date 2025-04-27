@@ -87,6 +87,7 @@ dependencies {
     //naulian
     implementation(libs.naulian.anhance)
     implementation(libs.naulian.modify)
+    implementation(libs.naulian.motion)
 
     implementation(libs.kotlinx.serialization.json)
 
