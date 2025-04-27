@@ -31,8 +31,8 @@ import com.naulian.loading.theme.Orange
 import com.naulian.loading.theme.Red
 import com.naulian.loading.theme.Yellow
 
-//animation by LottieFiles @https://lottiefiles.com/lottiefilez
-//@https://lottiefiles.com/free-animation/material-wave-loading-yt2uoeE83o
+//animation by LottieFiles https://lottiefiles.com/lottiefilez
+//https://lottiefiles.com/free-animation/material-wave-loading-yt2uoeE83o
 @Composable
 fun MaterialWave(
     modifier: Modifier = Modifier,

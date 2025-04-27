@@ -28,8 +28,8 @@ import com.naulian.loading.theme.LinearOutFastInEasing
 import com.naulian.motion.animateSimpleFloat
 import com.naulian.motion.lerp
 
-//animation by Anastasiya Remeslova @https://lottiefiles.com/aranimation
-//@https://lottiefiles.com/free-animation/loading-18-Sx9I9v8DOW
+//animation by Anastasiya Remeslova https://lottiefiles.com/aranimation
+//https://lottiefiles.com/free-animation/loading-18-Sx9I9v8DOW
 @Composable
 fun LineWave(
     modifier: Modifier = Modifier,

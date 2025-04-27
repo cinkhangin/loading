@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import com.naulian.motion.animateSimpleFloat
 import com.naulian.motion.lerp
 
-//animation by Arpan Gupta @https://lottiefiles.com/arpangupta
-//@https://lottiefiles.com/free-animation/loading-RPJRbJJhDY
+//animation by Arpan Gupta https://lottiefiles.com/arpangupta
+//https://lottiefiles.com/free-animation/loading-RPJRbJJhDY
 @Composable
 fun SwitchingBalls(
     modifier: Modifier = Modifier,

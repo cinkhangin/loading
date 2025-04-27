@@ -32,10 +32,8 @@ fun Float.scale(@FloatRange(0.0, 1.0) percent: Float): Float {
     return (this * percent)
 }
 
-/*
-* animation by Maximilian Dahl https://lottiefiles.com/maximiliandahl
-* https://lottiefiles.com/free-animation/car2go-global-loading-animation-Vzv61jcw3T
-*/
+//animation by Maximilian Dahl https://lottiefiles.com/maximiliandahl
+//https://lottiefiles.com/free-animation/car2go-global-loading-animation-Vzv61jcw3T
 @Composable
 fun CircleWave(
     modifier: Modifier = Modifier,
