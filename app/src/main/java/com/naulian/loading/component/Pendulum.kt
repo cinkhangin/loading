@@ -1,5 +1,6 @@
 package com.naulian.loading.component
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Canvas
@@ -18,24 +19,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.naulian.loading.bounceLerp
-import com.naulian.loading.map
-import com.naulian.loading.scale
 import com.naulian.motion.animateSimpleFloat
 import com.naulian.motion.lerp
 
-//Day 4
-//animation by Maximilian Dahl https://lottiefiles.com/maximiliandahl
-//https://lottiefiles.com/free-animation/car2go-global-loading-animation-Vzv61jcw3T
+//Day 5
+//animation by Heather Romney https://lottiefiles.com/yfc428a1g3zsmxna
+//https://lottiefiles.com/free-animation/loading-dots-blue-on-white-ZugaGItk38
 @Composable
-fun CircleWave(
+fun Pendulum(
     modifier: Modifier = Modifier,
-    maxBallSize: Dp = 64.dp,
-    spacedBy: Dp = maxBallSize / 2,
+    maxBallSize: Dp = 24.dp,
+    spacedBy: Dp = maxBallSize / 4,
     ballColor: Color = MaterialTheme.colorScheme.primary
 ) {
 
@@ -45,15 +44,26 @@ fun CircleWave(
     }
 
     val (widthDp, heightDp) = with(LocalDensity.current) {
-        Pair(first = (ballSize * 3 + spacing * 2).toDp(), second = maxBallSize)
+        Pair(first = (ballSize * 5 + spacing * 4).toDp(), second = maxBallSize * 3)
     }
 
     val infiniteAnim = rememberInfiniteTransition()
 
-    val animation by infiniteAnim.animateSimpleFloat(
-        duration = 2000,
-        repeatMode = RepeatMode.Restart,
-        label = "circle_wave_pos",
+    val left by infiniteAnim.animateSimpleFloat( //update motion
+        duration = 600,
+        delay = 600,
+        easing = LinearOutSlowInEasing,
+        repeatMode = RepeatMode.Reverse,
+        label = "left",
+    )
+
+    val right by infiniteAnim.animateSimpleFloat(
+        duration = 600,
+        delay = 600,
+        startDelay = 1200,
+        easing = LinearOutSlowInEasing,
+        repeatMode = RepeatMode.Reverse,
+        label = "left",
     )
 
     Canvas(
@@ -62,50 +72,59 @@ fun CircleWave(
             .height(heightDp)
     ) {
 
-        val anim1 = map(animation, 0f)
-        val scaler1 = bounceLerp(input = anim1)
+        val leftAnim = lerp(input = left, outStart = 0f, outEnd = 60f)
+        rotate(leftAnim, pivot = Offset(x = radius, y = 0f)) {
+            drawCircle(
+                color = ballColor,
+                radius = radius,
+                center = Offset(
+                    x = radius,
+                    y = size.height - radius
+                )
+            )
+        }
+
+
         drawCircle(
             color = ballColor,
-            radius = radius.scale(scaler1),
+            radius = radius,
             center = Offset(
-                x = lerp(
-                    input = anim1,
-                    outStart = radius,
-                    outEnd = size.width - radius
-                ),
-                y = radius
+                x = ballSize + spacing + radius,
+                y = size.height - radius
             )
         )
 
-        val anim2 = map(animation, 0.33f)
-        val scaler2 = bounceLerp(input = anim2)
         drawCircle(
             color = ballColor,
-            radius = radius.scale(scaler2),
+            radius = radius,
             center = Offset(
-                x = lerp(
-                    input = anim2,
-                    outStart = radius,
-                    outEnd = size.width - radius
-                ),
-                y = radius
+                x = ballSize * 2 + spacing * 2 + radius,
+                y = size.height - radius
             )
         )
 
-        val anim3 = map(animation, 0.66f)
-        val scaler3 = bounceLerp(input = anim3)
         drawCircle(
             color = ballColor,
-            radius = radius.scale(scaler3),
+            radius = radius,
             center = Offset(
-                x = lerp(
-                    input = anim3,
-                    outStart = radius,
-                    outEnd = size.width - radius
-                ),
-                y = radius
+                x = ballSize * 3 + spacing * 3 + radius,
+                y = size.height - radius
             )
         )
+
+        val rightAnim = lerp(
+            input = right, outStart = 0f, outEnd = 60f
+        )
+        rotate(360f - rightAnim, pivot = Offset(x = ballSize * 4 + spacing * 4 + radius, y = 0f)) {
+            drawCircle(
+                color = ballColor,
+                radius = radius,
+                center = Offset(
+                    x = ballSize * 4 + spacing * 4 + radius,
+                    y = size.height - radius
+                )
+            )
+        }
     }
 }
 
@@ -120,7 +139,7 @@ private fun CircleWavePreview() {
             .padding(24.dp),
         contentAlignment = Alignment.Center,
     ) {
-        CircleWave(
+        Pendulum(
             ballColor = Color(0xFF3F51B5),
         )
     }

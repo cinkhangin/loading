@@ -1,10 +1,8 @@
 package com.naulian.loading.component
 
-import androidx.compose.animation.core.InfiniteRepeatableSpec
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,48 +22,78 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.naulian.loading.bounceLerp
 import com.naulian.loading.theme.Blue
 import com.naulian.loading.theme.Green
 import com.naulian.loading.theme.Orange
 import com.naulian.loading.theme.Red
 import com.naulian.loading.theme.Yellow
+import com.naulian.motion.animateSimpleFloat
+import com.naulian.motion.lerp
 
+//Day 1
 //animation by LottieFiles https://lottiefiles.com/lottiefilez
 //https://lottiefiles.com/free-animation/material-wave-loading-yt2uoeE83o
 @Composable
 fun MaterialWave(
     modifier: Modifier = Modifier,
-    ballSize: Dp = 24.dp,
-    spacedBy: Dp = 16.dp
+    ballSizeDp: Dp = 24.dp,
+    spacedBy: Dp = 16.dp,
+    gapDelay: Int = 200,
+    pause : Int = 500,
+    animDuration : Int = 500,
+    easing : Easing = FastOutSlowInEasing
 ) {
 
-    val (size, spacing, radius) = with(LocalDensity.current) {
+    val (ballSize, spacing, radius) = with(LocalDensity.current) {
         Triple(
-            ballSize.toPx(),
+            ballSizeDp.toPx(),
             spacedBy.toPx(),
-            ballSize.toPx() / 2
+            ballSizeDp.toPx() / 2
         )
     }
 
     val (widthDp, heightDp) = with(LocalDensity.current) {
         Pair(
-            ((size * 5) + (spacing * 4)).toDp(),
-            (size * 2 + spacing).toDp()
+            ((ballSize * 5) + (spacing * 4)).toDp(),
+            (ballSize * 2 + spacing).toDp()
         )
     }
 
     val infiniteAnim = rememberInfiniteTransition()
-    val animation by infiniteAnim.animateFloat(
-        initialValue = 0f,
-        targetValue = 1.2f,
-        animationSpec = InfiniteRepeatableSpec(
-            animation = tween(
-                durationMillis = 1500,
-                easing = LinearEasing
-            )
-        ),
-        label = "material_wave",
+
+    val first by infiniteAnim.animateSimpleFloat(
+        duration = animDuration,
+        delay = pause,
+        label = "first_ball",
+        easing = easing
+    )
+    val second by infiniteAnim.animateSimpleFloat(
+        duration = animDuration,
+        delay = pause,
+        label = "second_ball",
+        startDelay = gapDelay,
+        easing = easing
+    )
+    val third by infiniteAnim.animateSimpleFloat(
+        duration = animDuration,
+        delay = pause,
+        label = "third_ball",
+        startDelay = gapDelay * 2,
+        easing = easing
+    )
+    val forth by infiniteAnim.animateSimpleFloat(
+        duration = animDuration,
+        delay = pause,
+        label = "forth_ball",
+        startDelay = gapDelay * 3,
+        easing = easing
+    )
+    val fifth by infiniteAnim.animateSimpleFloat(
+        duration = animDuration,
+        delay = pause,
+        label = "fifth_ball",
+        startDelay = gapDelay * 4,
+        easing = easing
     )
 
     Canvas(
@@ -78,11 +106,9 @@ fun MaterialWave(
             radius = radius,
             center = Offset(
                 x = radius,
-                y = bounceLerp(
-                    input = animation,
-                    inStart = 0f,
-                    inEnd = 0.6f,
-                    outStart = this.size.height - radius,
+                y = lerp(
+                    input = first,
+                    outStart = size.height - radius,
                     outEnd = radius
                 )
             )
@@ -92,12 +118,10 @@ fun MaterialWave(
             color = Blue,
             radius = radius,
             center = Offset(
-                x = size + spacing + radius,
-                y = bounceLerp(
-                    input = animation,
-                    inStart = 0.15f,
-                    inEnd = 0.75f,
-                    outStart = this.size.height - radius,
+                x = ballSize + spacing + radius,
+                y = lerp(
+                    input = second,
+                    outStart = size.height - radius,
                     outEnd = radius
                 )
             )
@@ -107,12 +131,10 @@ fun MaterialWave(
             color = Green,
             radius = radius,
             center = Offset(
-                x = (size * 2) + (spacing * 2) + radius,
-                y = bounceLerp(
-                    input = animation,
-                    inStart = 0.30f,
-                    inEnd = 0.90f,
-                    outStart = this.size.height - radius,
+                x = (ballSize * 2) + (spacing * 2) + radius,
+                y = lerp(
+                    input = third,
+                    outStart = size.height - radius,
                     outEnd = radius
                 )
             )
@@ -122,12 +144,10 @@ fun MaterialWave(
             color = Yellow,
             radius = radius,
             center = Offset(
-                x = (size * 3) + (spacing * 3) + radius,
-                y = bounceLerp(
-                    input = animation,
-                    inStart = 0.45f,
-                    inEnd = 1.05f,
-                    outStart = this.size.height - radius,
+                x = (ballSize * 3) + (spacing * 3) + radius,
+                y = lerp(
+                    input = forth,
+                    outStart = size.height - radius,
                     outEnd = radius
                 )
             )
@@ -137,12 +157,10 @@ fun MaterialWave(
             color = Orange,
             radius = radius,
             center = Offset(
-                x = (size * 4) + (spacing * 4) + radius,
-                y = bounceLerp(
-                    input = animation,
-                    inStart = 0.60f,
-                    inEnd = 1.2f,
-                    outStart = this.size.height - radius,
+                x = (ballSize * 4) + (spacing * 4) + radius,
+                y = lerp(
+                    input = fifth,
+                    outStart = size.height - radius,
                     outEnd = radius
                 )
             )

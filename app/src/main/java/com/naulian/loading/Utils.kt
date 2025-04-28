@@ -2,8 +2,8 @@ package com.naulian.loading
 
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import com.naulian.loading.theme.LinearOutFastInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import com.naulian.loading.theme.SlowOutFastInEasing
 import com.naulian.motion.lerp
 
 @Suppress("SpellCheckingInspection")
@@ -13,8 +13,8 @@ fun bounceLerp(
     inEnd: Float = 1f,
     outStart: Float = 0f,
     outEnd: Float = 1f,
-    outEasing: Easing = LinearOutSlowInEasing,
-    inEasing: Easing = LinearOutFastInEasing
+    outEasing: Easing = FastOutSlowInEasing,
+    inEasing: Easing = SlowOutFastInEasing
 ): Float {
     val halfWay = ((inEnd - inStart) / 2) + inStart
     return if (input <= halfWay) {
@@ -48,12 +48,19 @@ fun map(
     )
 }
 
+fun Float.flip() = 1f - this
+
 fun main() {
     listOf(
         0.0f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.35f, 0.4f, 0.45f, 0.5f,
         0.55f, 0.6f, 0.65f, 0.7f, 0.75f, 0.8f, 0.85f, 0.9f, 0.95f, 1.0f
     ).forEach {
-        println("$it -> ${map(it, 0.25f)}")
+        //println("$it -> ${map(it, 0.25f)}")
+        println("$it -> ${it.flip()}")
     }
+}
+
+fun Float.scale(@FloatRange(0.0, 1.0) percent: Float): Float {
+    return (this * percent)
 }
 

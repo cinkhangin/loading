@@ -24,9 +24,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.naulian.loading.flip
 import com.naulian.motion.animateSimpleFloat
 import com.naulian.motion.lerp
 
+//Day 3
 //animation by Arpan Gupta https://lottiefiles.com/arpangupta
 //https://lottiefiles.com/free-animation/loading-RPJRbJJhDY
 @Composable
@@ -53,18 +55,11 @@ fun SwitchingBalls(
     }
 
     val infiniteAnim = rememberInfiniteTransition()
-    val animation1 by infiniteAnim.animateSimpleFloat(
+    val animation by infiniteAnim.animateSimpleFloat(
         duration = 600,
         repeatMode = RepeatMode.Reverse,
         easing = CubicBezierEasing(0.7f, 0.0f, 0.3f, 1.0f),
         label = "ball1",
-    )
-
-    val animation2 by infiniteAnim.animateSimpleFloat(
-        duration = 600,
-        repeatMode = RepeatMode.Reverse,
-        easing = CubicBezierEasing(0.7f, 0.0f, 0.3f, 1.0f),
-        label = "ball2",
     )
 
     Canvas(
@@ -77,7 +72,7 @@ fun SwitchingBalls(
             radius = radius,
             center = Offset(
                 x = lerp(
-                    input = animation1,
+                    input = animation,
                     outStart = radius,
                     outEnd = size + spacing + radius
                 ),
@@ -90,7 +85,7 @@ fun SwitchingBalls(
             radius = radius,
             center = Offset(
                 x = lerp(
-                    input = animation2,
+                    input = animation,
                     outStart = size + spacing + radius,
                     outEnd = radius
                 ),
